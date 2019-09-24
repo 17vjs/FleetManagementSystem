@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Vehicle</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" a href="R:\miniproject\css\bootstrap.css">
+  <!-- styles -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <style>
+    .profile-sidebar {
+      padding: 20px 20px 20px 20px;
+      background: #fff;
+      margin: 10px 10px 10px 10px
+    }
+
+
+    body {
+      font-size: 21px;
+      background: #F1F3FA;
+
+    }
+
+
+    *,
+    *:before,
+    *:after {
+      box-sizing: border-box;
+    }
+
+    .step {
+
+      margin: 20px 20px;
+      position: relative;
+      min-height: 1em;
+      color: black;
+    }
+
+    .step+.step {
+      margin-top: 1.5em
+    }
+
+    .step>div:first-child {
+      position: static;
+      height: 0;
+    }
+
+    .step>div:not(:first-child) {
+      margin-left: 1.5em;
+      padding-left: 1em;
+    }
+
+    .step.step-active {
+      color: #4285f4
+    }
+
+    .step.step-active .circle {
+      background-color: #4285f4;
+
+    }
+
+    .circle {
+      background: black;
+      position: relative;
+      width: 1.5em;
+      height: 1.5em;
+      line-height: 1.5em;
+      border-radius: 100%;
+      color: black;
+      text-align: center;
+      box-shadow: 0 0 0 3px black;
+    }
+
+    .circle:after {
+      content: ' ';
+      position: absolute;
+      display: block;
+      top: 1px;
+      right: 50%;
+      bottom: 1px;
+      left: 50%;
+      height: 100%;
+      width: 1px;
+      transform: scale(1, 2);
+      transform-origin: 50% -100%;
+      background-color: black;
+      z-index: -1;
+    }
+
+    .step:last-child .circle:after {
+      display: none
+    }
+
+    .profile-userbuttons {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    /* Stepper Titles */
+    .title {
+      line-height: 1.5em;
+      font-weight: bold;
+    }
+
+    .caption {
+      font-size: 0.8em;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand " href="../"><b>MAX</b></a>
+      </div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav navbar-right">
+          <button class="btn navbar-btn btn-primary " data-toggle="modal"
+            data-target="#insuranceModal">INSURANCE</button>
+          <div class="modal fade" id="insuranceModal" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog " role="document">
+              <div class="modal-content">
+
+                <div class="modal-body">
+                  <form action="/send_data2/" method="POST">
+                    <div class="form-group">
+                      <label for="ins_no"><b>Insurance number</b></label>
+                      <input type="number" placeholder="number" name="ins_no" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="validf"><b>Valid From</b></label>
+                      <input type="date" class="form-control" placeholder="date" name="validf" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="validu"><b>Valid Upto</b></label>
+                      <input type="date" class="form-control" placeholder="date" name="validu" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="cost"><b>Amount</b></label>
+                      <input type="number" class="form-control" placeholder="$$$$" name="cost" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="icomp"><b>Name of your Company</b></label>
+                      <input type="text" class="form-control" placeholder="ex-> LIC" name="icomp" required>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                  </form>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <button class="btn navbar-btn btn-secondary" data-toggle="modal" data-target="#permitModal">PERMITS</button>
+          <div class="modal fade" id="permitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+            aria-hidden="true">
+            <div class="modal-dialog " role="document">
+              <div class="modal-content">
+
+                <div class="modal-body">
+                  <form action="/send_data3/" method="POST">
+                    <div class="form-group">
+                      <label for="pno"><b>Permit Number</b></label>
+                      <input type="number" class="form-control" placeholder="number" name="pno" required>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="validf"><b>Valid From</b></label>
+                      <input type="date" class="form-control" placeholder="date" name="validf" required>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="validu"><b>Valid Upto</b></label>
+                      <input type="date" class="form-control" placeholder="date" name="validu" required>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="cost"><b>Amount</b></label>
+                      <input type="number" class="form-control" placeholder="$$$$" name="cost" required>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="icomp"><b>Name of Insurance Company</b></label>
+                      <input type="text" class="form-control" placeholder="ex-> LIC" name="icomp" required>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                  </form>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+
+          <button class="btn navbar-btn btn-info" data-toggle="modal" data-target="#loanModal">LOANS</button>
+          <div class="modal fade" id="loanModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+            aria-hidden="true">
+            <div class="modal-dialog " role="document">
+              <div class="modal-content">
+
+                <div class="modal-body">
+                  <form action="/send_data4/" method="POST">
+                    <div class="form-group">
+                      <label for="lno"><b>Loan Number</b></label>
+                      <input class="form-control" type="number" placeholder="number" name="lno" required>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="lid"><b>Loan_ID</b></label>
+                      <input type="text" class="form-control" placeholder="ID" name="lid" required>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="costt"><b>Total Amount</b></label>
+                      <input type="number" class="form-control" placeholder="$Total" name="costt" required>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="costp"><b>Paid Amount</b></label>
+                      <input type="number" class="form-control" placeholder="$Paid" name="costp" required>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="lcomp"><b>Loan company</b></label>
+                      <input type="text" class="form-control" placeholder="ex-> LIC" name="lcomp" required>
+
+                    </div>
+
+                    <div class="form-group">
+                      <label for="dur"><b>Duration</b></label>
+                      <input type="number" class="form-control" placeholder="YY/MM" name="dur" required>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="int"><b>Interests</b></label>
+                      <input type="number" class="form-control" placeholder="Rs" name="int" required>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                  </form>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+
+          <button class="btn navbar-btn btn-danger" data-toggle="modal" data-target="#taxModal">TAXES</button>
+          <div class="modal fade" id="taxModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+            aria-hidden="true">
+            <div class="modal-dialog " role="document">
+              <div class="modal-content">
+
+                <div class="modal-body">
+                  <form action="/send_data6/" method="POST">
+                    <div class="form-group">
+                      <label for="tno"><b>Tax Number</b></label>
+                      <input type="number" class="form-control" placeholder="number" name="tno" required>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="cost"><b>Amount</b></label>
+                      <input type="number" class="form-control" placeholder="$$$$" name="cost" required>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="validf"><b>Valid From</b></label>
+                      <input type="date" class="form-control" placeholder="date" name="validf" required>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="validu"><b>Valid Upto</b></label>
+                      <input type="date" class="form-control" placeholder="date" name="validu" required>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                  </form>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+
+          <button class="btn navbar-btn btn-warning" data-toggle="modal"
+            data-target="#maintenanceModal">MAINTENANCE</button>
+          <div class="modal fade" id="maintenanceModal" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog " role="document">
+              <div class="modal-content">
+
+                <div class="modal-body">
+                  <form action="/send_data5/" method="POST">
+                    <div class="form-group">
+                      <label for="rmk"><b>Remark</b></label>
+                      <input type="text" class="form-control" placeholder="Suggestions....." name="rmk" required>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="plc"><b>Place</b></label>
+                      <input type="text" class="form-control" placeholder="Location" name="plc" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="cost"><b>Amount</b></label>
+                      <input type="number" class="form-control" placeholder="$$$$" name="cost" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="vend"><b>Vendor</b></label>
+                      <input type="text" class="form-control" placeholder="Name" name="vend" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="dom"><b>Date_of_Maintenance</b></label>
+                      <input type="date" class="form-control" placeholder="DD-MM-YYYY" name="dom" required>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                  </form>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+
+        </ul>
+
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="row ">
+
+      <div class="col-md-12">
+        <div class="profile-sidebar">
+          <div class="profile-userbuttons">
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+              Delete Vehicle
+            </button>
+
+          </div>
+          <!-- Deleting Modal -->
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog  " role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to delete ?</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+
+                <div class="modal-footer">
+                  <form action="/send_data/" method="POST">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row ">
+
+      <div class="col-md-8">
+
+        {%for i in vehicle%}
+        <div class="step step-active">
+          <div>
+            <div class="circle"><i class="fa fa-check">1</i></div>
+          </div>
+          <div>
+            <div class="title">{{i}}</div>
+            <div class="caption">{{i}}</div>
+          </div>
+        </div>
+        {%endfor%}
+        <button style="margin-left:20px;margin-top: 20px" class="btn btn-success" data-toggle="modal"
+          data-target="#addTransactionModal">
+          Add Transaction</button>
+
+      </div>
+      <div class="col-md-4" style="float:right">
+        <div class="profile-sidebar">
+
+          <form action="/send_data1/" method="POST">
+
+            <label for="source"><b>Source</b></label>
+            <input type="text" class="form-control" placeholder="Enter Source" name="source" required>
+
+            <label for="destination"><b>Destination</b></label>
+            <input type="text" class="form-control" placeholder="Enter Destination" name="destination" required>
+            <label for="cost"><b>Cost</b></label>
+            <input type="number" class="form-control" placeholder="Enter cost" name="cost" required>
+            <hr>
+            <button class="btn btn-success" type="submit">Submit</button>
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="modal fade" id="addTransactionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+    aria-hidden="true">
+    <div class="modal-dialog " role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <form action="/send_data1/" method="POST">
+            <div class="form-group">
+              <label for="ins_no"><b>Transaction Amount</b></label>
+              <input type=number" class="form-control" placeholder="" name="ins_no" required>
+            </div>
+            <div class="form-group">
+              <label for="validf"><b>Transaction Date</b></label>
+              <input type="date" class="form-control" placeholder="" name="validf" required>
+            </div>
+            <div class="form-group">
+              <label for="validu"><b>Transaction Place</b></label>
+              <input required type="text" class="form-control" placeholder="" name="validu" required>
+
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Save changes</button>
+
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- scripts -->
+  <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+    integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+    crossorigin="anonymous"></script>
+
+</body>
+
+</html>
