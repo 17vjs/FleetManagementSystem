@@ -16,6 +16,25 @@
       margin: 10px 10px 10px 10px
     }
 
+    .profile-usertitle {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .profile-usertitle-name {
+      color: #5a7391;
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 7px;
+    }
+
+    .profile-usertitle-job {
+      text-transform: uppercase;
+      color: #5b9bd1;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
 
     body {
       font-size: 21px;
@@ -324,36 +343,56 @@
       </div>
     </div>
     {%with messages=get_flashed_messages()%}
-  {%if messages%}
-      {%for message in messages%}
-        {%if message==None%}    
-          <div class="alert alert-danger "  role="alert">
-            <strong>Failed</strong>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-          </div>
-        {%else%}
-          <div class="alert alert-success " role="alert">
-            <strong>{{message[0]}}</strong>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-          </div>
-        {%endif%} 
+    {%if messages%}
+    {%for message in messages%}
+    {%if message==None%}
+    <div class="alert alert-danger " role="alert">
+      <strong>Failed</strong>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {%else%}
+    <div class="alert alert-success " role="alert">
+      <strong>{{message[0]}}</strong>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {%endif%}
 
-      {%endfor%}
-  {% endif %}  
-{% endwith%}
+    {%endfor%}
+    {% endif %}
+    {% endwith%}
   </nav>
 
   <div class="container">
     <div class="row ">
 
-      <div class="col-md-12">
+      <div class="col-sm-12">
         <div class="profile-sidebar">
+          {%for i in vehicle%}
+
+          <div class="profile-usertitle">
+            <div class="profile-usertitle-name">
+              {{i[0]}}
+            </div>
+            <div class="profile-usertitle-job">
+              {{i[1]}}
+            </div>
+            <div class="profile-usertitle-job">
+              {{i[2]}}
+            </div>
+            <div class="profile-usertitle-job">
+              {{i[3]}}
+            </div>
+
+          </div>
+          {%endfor%}
           <div class="profile-userbuttons">
-            
+
+
+
             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
               Delete Vehicle
             </button>
@@ -390,7 +429,7 @@
   <div class="container">
     <div class="row ">
 
-      <div class="col-md-8">
+      <div class="col-sm-8">
 
         {%for i in vehicle%}
         <div class="step step-active">
@@ -408,7 +447,7 @@
           Add Transaction</button>
 
       </div>
-      <div class="col-md-4" style="float:right">
+      <div class="col-sm-4" style="float:right">
         <div class="profile-sidebar">
 
           <form action="/send_data1/" method="POST">

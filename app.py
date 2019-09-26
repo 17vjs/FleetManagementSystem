@@ -93,7 +93,6 @@ def add_salary():
 @app.route('/')
 def index():
         vehicles=setConnection(["read_vehicles"])
-        # customers=["a"]
         drivers=setConnection(["read_drivers"])
         customers=setConnection(["read_customers"])
 
@@ -104,10 +103,10 @@ def driver():
         driver=["a",112,32423]
         return render_template('Driver.html',driver=driver)
 
-@app.route('/vehicle/')
-def vehicle():
-        # vehicle=setConnection(["read_vehicles"])
-        vehicle=["a"]
+@app.route('/vehicle/<veh_no>')
+def vehicle(veh_no):
+        vehicle=setConnection(["read_vehicle",veh_no])
+        # vehicle=["A"]
         return render_template('Vehicle.html',vehicle=vehicle)
 
 
