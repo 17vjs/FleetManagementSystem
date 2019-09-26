@@ -30,6 +30,7 @@
 </head>
 
 <body>
+  
   <nav class="navbar navbar-inverse">
     <div class="container-fluid">
       <div class="navbar-header">
@@ -54,22 +55,22 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                  <form>
+                  <form method="POST" action="/add_vehicle/">
                     <div class="form-group">
-                      <label for="ins_no"><b>Vehicle number</b></label>
-                      <input type="text" class="form-control" placeholder="Ex- MH AA 1090" name="ins_no" required>
+                      <label for="veh_no"><b>Vehicle number</b></label>
+                      <input type="text" class="form-control" placeholder="Ex- MH AA 1090" name="veh_no" required>
                     </div>
                     <div class="form-group">
-                      <label for="validf"><b>Chassis Number</b></label>
-                      <input type="text" class="form-control" placeholder="Ex-A1248DRA" name="validf" required>
+                      <label for="chassis_no"><b>Chassis Number</b></label>
+                      <input type="text" class="form-control" placeholder="Ex-A1248DRA" name="chassis_no" required>
                     </div>
                     <div class="form-group">
-                      <label for="validu"><b>Vehicle Class</b></label>
-                      <input type="text" class="form-control" placeholder="Ex-14 wheeler" name="validu" required>
+                      <label for="vehicle_class"><b>Vehicle Class</b></label>
+                      <input type="text" class="form-control" placeholder="Ex-14 wheeler" name="vehicle_class" required>
                     </div>
                     <div class="form-group">
-                      <label for="cost"><b>Vehicle Capacity</b></label>
-                      <input type="number" class="form-control" placeholder="Ex-1 tonne" name="cost" required>
+                      <label for="vehicle_capacity"><b>Vehicle Capacity</b></label>
+                      <input type="number" class="form-control" placeholder="Ex-1 tonne" name="vehicle_capacity" required>
                     </div>
                     <div class="modal-footer">
                       <button type="submit" class="btn btn-primary">Save changes</button>
@@ -93,7 +94,7 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                  <form>
+                  <form action="/add_customer/" method="POST">
                     <div class="form-group">
                       <label for="Cus_name"><b>Customer Name</b></label>
                       <input type="text" class="form-control" placeholder=" " name="Cus_name" required>
@@ -132,18 +133,18 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                  <form>
+                  <form action="/add_driver/" method="POST">
                     <div class="form-group">
-                      <label for="Cus_name"><b>Driver Name</b></label>
-                      <input type="text" class="form-control" placeholder=" " name="Cus_name" required>
+                      <label for="driver_name"><b>Driver Name</b></label>
+                      <input type="text" class="form-control" placeholder=" " name="driver_name" required>
                     </div>
                     <div class="form-group">
-                      <label for="Comp_name"><b>License No.</b></label>
-                      <input type="text" class="form-control" placeholder=" " name="Comp_name" required>
+                      <label for="License_no"><b>License No.</b></label>
+                      <input type="text" class="form-control" placeholder=" " name="License_no" required>
                     </div>
                     <div class="form-group">
-                      <label for="Cus_contact"><b>Contact No</b></label>
-                      <input type="number" class="form-control" placeholder="" name="Cus_contact" required>
+                      <label for="contact_no"><b>Contact No</b></label>
+                      <input type="number" class="form-control" placeholder="" name="contact_no" required>
                     </div>
                     <div class="modal-footer">
                       <button type="submit" class="btn btn-primary">Save changes</button>
@@ -160,11 +161,33 @@
         </ul>
       </div>
     </div>
+    {%with messages=get_flashed_messages()%}
+  {%if messages%}
+      {%for message in messages%}
+        {%if message==None%}    
+          <div class="alert alert-danger "  role="alert">
+            <strong>Failed</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+        {%else%}
+          <div class="alert alert-success " role="alert">
+            <strong>{{message[0]}}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+        {%endif%} 
+
+      {%endfor%}
+  {% endif %}  
+{% endwith%}
   </nav>
 
-
+  
   <div class="container">
-    <div class="alert alert-primary" role="alert">
+    <div class="alert alert-info" role="alert">
       Vehicles
     </div>
     <div class="row">
@@ -173,15 +196,14 @@
         <a href="/vehicle/">
 
           <div class="panel panel-primary">
-            <div class="panel-heading">{{i}}</div>
+            <div class="panel-heading">{{i[0]}}</div>
             <div class="panel-body">
               <img src="static/11.jpg" class="img-responsive" style="width:100%" alt="Image">
             </div>
             <div class="panel-footer">
-              <p class="text-center">{{i}}</p>
-              <p class="text-center">{{i}}</p>
-              <p class="text-center">{{i}}</p>
-              <p class="text-center">{{i}}</p>
+              <p class="text-center">{{i[1]}}</p>
+              <p class="text-center">{{i[2]}}</p>
+              <p class="text-center">{{i[3]}}</p>
 
             </div>
           </div>
@@ -189,11 +211,11 @@
       </div>
       {% endfor %}
     </div>
-    <div class="alert alert-primary" role="alert">
+    <div class="alert alert-info" role="alert">
       Drivers
     </div>
     <div class="row">
-      {%for i in vehicles%}
+      {%for i in drivers%}
 
       <div class="col-sm-2">
         <a href="/driver/">
@@ -211,11 +233,11 @@
 
       {% endfor %}
     </div>
-    <div class="alert alert-primary" role="alert">
+    <div class="alert alert-info" role="alert">
       Customers
     </div>
     <div class="row">
-      {%for i in vehicles%}
+      {%for i in customers%}
 
       <div class="col-sm-2">
 

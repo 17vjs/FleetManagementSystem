@@ -1,5 +1,8 @@
+from socket import socket, AF_INET, SOCK_STREAM
+import sys,pickle
+
 def setConnection(data_list):
-    HOST = '192.168.31.180'
+    HOST = '192.168.43.185'
     PORT = 50001
     s = socket(AF_INET, SOCK_STREAM)
     s.connect((HOST, PORT))
