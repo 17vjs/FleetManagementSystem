@@ -4,60 +4,78 @@ from socket import socket, AF_INET, SOCK_STREAM
 from connection import setConnection
 app = Flask(__name__)
 app.secret_key = 'my unobvious secret key'
-
-@app.route('/start_trip/', methods=['POST'])
-def start_trip():
+@app.route('/driver_on_vehicle/', methods=['POST'])
+def driver_on_vehicle():
     if request.method == 'POST':
-        lis = [request.form["source"],request.form["destination"],request.form["cost"]]
+        lis = ["write_driverOnVehicle",request.form["veh_no"],request.form["driver_name"]]
         flash(setConnection(lis))
-        return redirect(url_for('vehicle'))
-@app.route('/deleteVehicle/', methods=['POST'])
-def deleteVehicle():
-    if request.method == 'POST':
-        flash(setConnection(["delete_vehicles","mh14hs6097"]))        
         return redirect(url_for('index'))
-@app.route('/deleteDriver/', methods=['POST'])
-def deleteDriver():
+@app.route('/start_trip/<veh_no>', methods=['POST'])
+def start_trip(veh_no):
     if request.method == 'POST':
-        flash(setConnection(["delete_drivers","2"]))        
+        lis = ["write_trips",veh_no,request.form["customer_name"],request.form["source"],request.form["destination"],request.form["cost"],request.form["freight"]]
+        flash(setConnection(lis))
+        return redirect(url_for('vehicle',veh_no=veh_no))
+@app.route('/stop_trip/<veh_no>/<trip_id>', methods=['POST'])
+def stop_trip(veh_no,trip_id):
+    if request.method == 'POST':
+        lis = ["update_trip",trip_id]
+        flash(setConnection(lis))
+        return redirect(url_for('vehicle',veh_no=veh_no))
+
+@app.route('/add_trip_details/<veh_no>/<trip_id>', methods=['POST'])
+def add_trip_details(veh_no,trip_id):
+    if request.method == 'POST':
+        lis = ["write_trip_details",trip_id,request.form["amt"],request.form["date_of_tran"],request.form["place"],request.form["reason"]]
+        flash(setConnection(lis))
+        return redirect(url_for('vehicle',veh_no=veh_no))
+@app.route('/deleteVehicle/<veh_no>', methods=['POST'])
+def deleteVehicle(veh_no):
+    if request.method == 'POST':
+        flash(setConnection(["delete_vehicles",veh_no]))        
+        return redirect(url_for('index'))
+@app.route('/deleteDriver/<driver_id>', methods=['POST'])
+def deleteDriver(driver_id):
+    if request.method == 'POST':
+        flash(setConnection(["delete_drivers",driver_id]))        
         return redirect(url_for('index'))
 
-@app.route('/insurance/', methods=['POST'])
-def insurance():
+@app.route('/insurance/<veh_no>', methods=['POST'])
+def insurance(veh_no):
     if request.method == 'POST':
-        lis = ["write_insurances","mh14hs6097",request.form["ins_no"],request.form["validf"],request.form["validu"],request.form["cost"],request.form["icomp"]]
+        lis = ["write_insurances",veh_no,request.form["ins_no"],request.form["validf"],request.form["validu"],request.form["cost"],request.form["icomp"]]
         flash(setConnection(lis))        
-        return redirect(url_for('vehicle'))
+        return redirect(url_for('vehicle',veh_no=veh_no))
 
-@app.route('/permit/', methods=['POST'])
-def permit():
+@app.route('/permit/<veh_no>', methods=['POST'])
+def permit(veh_no):
     if request.method == 'POST': 
-        lis = ["write_permits","mh14hs6097",request.form["pno"],request.form["validf"],request.form["validu"],request.form["cost"]]
+        lis = ["write_permits",veh_no,request.form["pno"],request.form["validf"],request.form["validu"],request.form["cost"]]
         flash(setConnection(lis))         
-        return redirect(url_for('vehicle'))
+        return redirect(url_for('vehicle',veh_no=veh_no))
 
 
-@app.route('/loan/', methods=['POST'])
-def loan():
+@app.route('/loan/<veh_no>', methods=['POST'])
+def loan(veh_no):
     if request.method == 'POST':
-        lis = ["write_loans","mh14hs6097",request.form["lno"],request.form["costt"],"0",request.form["lcomp"],request.form["dur"],request.form["intr"]]
+        lis = ["write_loans",veh_no,request.form["lno"],request.form["costt"],request.form["lcomp"],request.form["dur"],request.form["intr"]]
         flash(setConnection(lis))         
-        return redirect(url_for('vehicle'))
+        return redirect(url_for('vehicle',veh_no=veh_no))
 
-@app.route('/maintenance/', methods=['POST'])
-def maintenance():
+@app.route('/maintenance/<veh_no>', methods=['POST'])
+def maintenance(veh_no):
     if request.method == 'POST':    
-        lis = ["write_maintenance","mh14hs6097",request.form["rmk"],request.form["plc"],request.form["cost"],request.form["vend"],request.form["dom"]]
+        lis = ["write_maintenance",veh_no,request.form["rmk"],request.form["plc"],request.form["cost"],request.form["vend"],request.form["dom"]]
         flash(setConnection(lis))         
-        return redirect(url_for('vehicle'))
+        return redirect(url_for('vehicle',veh_no=veh_no))
 
         
-@app.route('/tax/', methods=['POST'])
-def tax():
+@app.route('/tax/<veh_no>', methods=['POST'])
+def tax(veh_no):
     if request.method == 'POST':
-        lis = ["write_taxes","mh14hs6097",request.form["tno"],request.form["validf"],request.form["validu"],request.form["cost"]]
+        lis = ["write_taxes",veh_no,request.form["tno"],request.form["validf"],request.form["validu"],request.form["cost"]]
         flash(setConnection(lis))         
-        return redirect(url_for('vehicle'))
+        return redirect(url_for('vehicle',veh_no=veh_no))
 
 
 @app.route('/add_customer/', methods=['POST'])
@@ -78,36 +96,48 @@ def add_vehicle():
         lis = ["write_vehicles",request.form["veh_no"],request.form["chassis_no"],request.form["vehicle_class"],request.form["vehicle_capacity"]]
         flash(setConnection(lis))
         return redirect(url_for('index'))
-@app.route('/add_dependent/', methods=['POST'])
-def add_dependent():
+@app.route('/add_dependent/<driver_id>', methods=['POST'])
+def add_dependent(driver_id):
     if request.method == 'POST':
-        lis = ["write_dependents","4",request.form["nm"],request.form["rel"],request.form["cnt"]]
+        lis = ["write_dependents",driver_id,request.form["nm"],request.form["rel"],request.form["cnt"]]
         flash(setConnection(lis))                 
-        return redirect(url_for('driver'))
-@app.route('/add_salary/', methods=['POST'])
-def add_salary():
+        return redirect(url_for('driver',driver_id=driver_id))
+@app.route('/add_salary/<driver_id>', methods=['POST'])
+def add_salary(driver_id):
     if request.method == 'POST':
-        lis = ["write_salary","2",request.form["salary"],"2019-09-02"]
+        lis = ["write_salary",driver_id,request.form["salary"]]
         flash(setConnection(lis))                 
-        return redirect(url_for('driver'))
+        return redirect(url_for('driver',driver_id=driver_id))
+@app.route('/pay_loan/<veh_no>/<loan_no>', methods=['POST'])
+def pay_loan(veh_no,loan_no):
+    if request.method == 'POST':
+        lis = ["write_loanPayRegister",loan_no,request.form["emi"]]
+        flash(setConnection(lis))                 
+        return redirect(url_for('vehicle',veh_no=veh_no))
 @app.route('/')
 def index():
         vehicles=setConnection(["read_vehicles"])
         drivers=setConnection(["read_drivers"])
         customers=setConnection(["read_customers"])
-
         return render_template('Mainboot.html',vehicles=vehicles,drivers=drivers,customers=customers)
 
-@app.route('/driver/')
-def driver():
-        driver=["a",112,32423]
-        return render_template('Driver.html',driver=driver)
+@app.route('/driver/<driver_id>')
+def driver(driver_id):
+        driver=setConnection(["read_driver",driver_id])
+        dependents=setConnection(["read_dependents",driver_id])
+        return render_template('Driver.html',driver=driver,dependents=dependents)
 
 @app.route('/vehicle/<veh_no>')
 def vehicle(veh_no):
         vehicle=setConnection(["read_vehicle",veh_no])
-        # vehicle=["A"]
-        return render_template('Vehicle.html',vehicle=vehicle)
+        customers=setConnection(["read_customers"])
+        tripDetail=setConnection(["read_tripDetails",veh_no])
+        loanProgress=setConnection(["read_loans",veh_no])
+        loanStatus=setConnection(["read_loanStatus",veh_no])
+        status=setConnection(["read_trips",veh_no])
+        status.append(0)
+        loanProgress.append(0)
+        return render_template('Vehicle.html',loanStatus=loanStatus,loanProgress=loanProgress,vehicle=vehicle,customers=customers,tripDetail=tripDetail,status=status)
 
 
 if __name__ == '__main__':
