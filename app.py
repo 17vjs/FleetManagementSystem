@@ -2,8 +2,16 @@ import sys,pickle
 from flask import Flask,flash, redirect, url_for, request, render_template, abort, jsonify,g
 from socket import socket, AF_INET, SOCK_STREAM
 from connection import setConnection
+# from analysis1 import *
+# from analysis2 import *
+# from analysis3 import *
 app = Flask(__name__)
 app.secret_key = 'my unobvious secret key'
+@app.route('/logout/')
+def reports():
+        lis = ["stop"]
+        flash(setConnection(lis))
+        return render_template('bye.html')
 @app.route('/driver_on_vehicle/', methods=['POST'])
 def driver_on_vehicle():
     if request.method == 'POST':
