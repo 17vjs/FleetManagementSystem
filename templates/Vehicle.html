@@ -127,6 +127,12 @@
       font-size: 0.8em;
     }
   </style>
+  <script type="text/javascript">
+    function generateinvoice() {
+      var w = window.open("/invoice/{{status[0][0]}}");
+      w.print()
+    }
+  </script>
 </head>
 
 <body>
@@ -324,7 +330,7 @@
                       <input type="text" class="form-control" name="vend" required>
                     </div>
                     <div class="form-group">
-                      <label for="dom"><b>Date_of_Maintenance</b></label>
+                      <label for="dom"><b>Date</b></label>
                       <input type="date" class="form-control" name="dom" required>
                     </div>
                     <div class="modal-footer">
@@ -371,32 +377,32 @@
 
       <div class="row">
         <div class="profile-sidebar">
-          
-            <progress style="width: 100%" value={{loanStatus[0][0]}} max={{loanProgress[0][2]}}>
-              </progress>    
+
+          <progress style="width: 100%" value={{loanStatus[0][0]}} max={{loanProgress[0][2]}}>
+          </progress>
           <div class="profile-usertitle">
-           
-           
+
+
             <div class="profile-usertitle-name">
-             Loan no : {{loanProgress[0][1]}}
+              Loan no : {{loanProgress[0][1]}}
             </div>
             <div class="profile-usertitle-name">
-               Total amount : {{loanProgress[0][2]}}
-              </div>
-              <div class="profile-usertitle-name">
-                 Paid amount : {{loanStatus[0][0]}}
-                </div>
-                <div class="profile-usertitle-name">
-                   Given by : {{loanProgress[0][3]}}
-                   </div>
-                <form action="/pay_loan/{{loanProgress[0][0]}}/{{loanProgress[0][1]}}" method="POST">
-                  <input type="number" placeholder="Enter amount" name="emi" required>
-                  <button class="btn btn-success">Pay Loan EMI</button>
-    
-                </form>
+              Total amount : {{loanProgress[0][2]}}
+            </div>
+            <div class="profile-usertitle-name">
+              Paid amount : {{loanStatus[0][0]}}
+            </div>
+            <div class="profile-usertitle-name">
+              Given by : {{loanProgress[0][3]}}
+            </div>
+            <form action="/pay_loan/{{loanProgress[0][0]}}/{{loanProgress[0][1]}}" method="POST">
+              <input type="number" placeholder="Enter amount" name="emi" required>
+              <button class="btn btn-success">Pay Loan EMI</button>
+
+            </form>
           </div>
-        
-         
+
+
         </div>
       </div>
 
@@ -416,10 +422,10 @@
         </div>
         {%endfor%}
         <button style="margin-left:20px" class="btn btn-primary" data-toggle="modal" data-target="#addTransactionModal"
-         {%if status[0][8]=='1'%} !disabled {%else%} disabled {%endif%}>
+          {%if status[0][8]=='1'%} !disabled {%else%} disabled {%endif%}>
           Add Transaction</button>
         <form style="margin-left:20px" method="POST" action="/stop_trip/{{vehicle[0][0]}}/{{status[0][0]}}"> <button
-            class="btn btn-danger"  {%if status[0][8]=='1'%} !disabled {%else%} disabled
+            onclick="generateinvoice()" class="btn btn-danger" {%if status[0][8]=='1'%} !disabled {%else%} disabled
             {%endif%}>
             Stop Journey</button></form>
 
@@ -502,7 +508,7 @@
               </select>
             </div>
             <hr>
-            <button class="btn btn-success"  {%if status[0][8]=='1'%} disabled {%else%} !disabled
+            <button class="btn btn-success" {%if status[0][8]=='1'%} disabled {%else%} !disabled
               {%endif%}type="submit">Start journey</button>
 
           </form>
